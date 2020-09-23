@@ -23,19 +23,34 @@ def register(request):
             user = form.cleaned_data.get('username')
             messages.success(request,'Account was created for ' + user)
             return redirect('dashboard')
-        else:
-            form = SignUpForm()
+    else:
+        form = SignUpForm()
 
-        context = {
-            'form' : form
-            }
-        return redirect('index')
+    context = {
+        'form' : form
+        }
+    return render(request, 'registration/register.html', context)
 
 def loginPage(request):
-    pass
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username = username, password = password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('')
+        else: 
+            messages.info(request, 'Username OR password is incorrect')
+    context = {}
+
+    return render(request, 'registration/login.html', context)
+
 
 def logoutUser(request):
-    pass
+    logout(request)
+    return redirect('login')
 
 def dashboard(request):
     pass
