@@ -10,13 +10,32 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
-    return HttpResponse('Hello World')
+    return render(request, 'index.html')
 
 def register(request):
-    pass
+    form = SignUpForm()
+
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request,'Account was created for ' + user)
+            return redirect('dashboard')
+        else:
+            form = SignUpForm()
+
+        context = {
+            'form' : form
+            }
+        return redirect('index')
 
 def loginPage(request):
     pass
 
 def logoutUser(request):
+    pass
+
+def dashboard(request):
     pass
