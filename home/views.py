@@ -53,4 +53,7 @@ def logoutUser(request):
     return redirect('login')
 
 def dashboard(request):
-    pass
+    context = {
+
+    }
+    return (request, 'dashboard.html', context)
